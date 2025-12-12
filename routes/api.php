@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
 
-Route::middleware('auth:sanctum')->get('/tags', function (Request $request) {
-    return Tag::all();
+Route::middleware(["auth:sanctum"])->group(function () {
+    Route::get("tags", [TagController::class, "listAll"]);
 });
