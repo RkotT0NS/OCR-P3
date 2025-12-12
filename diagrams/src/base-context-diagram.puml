@@ -1,0 +1,9 @@
+@startuml
+!include lib/C4_Context.puml
+
+Person(user, "User")
+System(renote, "Renote Monolithic Application", "PHP/Laravel application")
+
+Rel(user, renote, "Uses", "HTTPS")
+
+@enduml

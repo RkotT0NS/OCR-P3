@@ -1,0 +1,11 @@
+@startuml
+!include lib/C4_Context.puml
+
+Person(user, "User")
+System(frontend, "Renote Frontend", "React Single-Page Application")
+System(backend, "Renote Backend", "PHP/Laravel REST API")
+
+Rel(user, frontend, "Uses", "HTTPS")
+Rel(frontend, backend, "Makes API calls to", "HTTPS/JSON")
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+!include lib/C4_Container.puml
+
+Person(user, "User")
+
+System_Boundary(c1, "Renote System") {
+    Container(spa, "Single-Page Application", "JavaScript, React", "Provides all user interface functionality")
+    Container(api, "API Application", "PHP, Laravel", "Provides the REST API for the frontend")
+    ContainerDb(db, "Database", "SQLite", "Stores notes, tags, users, etc.")
+}
+
+Rel(user, spa, "Uses", "HTTPS")
+Rel(spa, api, "Makes API calls to", "HTTPS/JSON")
+Rel(api, db, "Reads from and writes to", "SQL")
+
+@enduml

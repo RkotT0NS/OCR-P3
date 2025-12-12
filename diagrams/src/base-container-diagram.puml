@@ -1,0 +1,14 @@
+@startuml
+!include lib/C4_Container.puml
+
+Person(user, "User")
+
+System_Boundary(c1, "Renote Monolithic Application") {
+    Container(web_app, "Web Application", "PHP, Laravel", "Delivers the UI and handles all business logic")
+    ContainerDb(db, "Database", "SQLite", "Stores notes, tags, users, etc.")
+}
+
+Rel(user, web_app, "Uses", "HTTPS")
+Rel(web_app, db, "Reads from and writes to", "SQL")
+
+@enduml
