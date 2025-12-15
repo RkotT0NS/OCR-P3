@@ -1,16 +1,38 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Note;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Notes;
 
 class NoteController
 {
-    public function listAll()
+    private $repository;
+    public function __construct()
     {
-        return Note::select("tag_id", "text")
-            ->where("user_id", Auth::id())
-            ->latest()
-            ->get();
+        $this->repository = new Notes();
+    }
+
+    public function delete(\Illuminate\Http\Request $request, string $uuid)
+    {
+        // $validated = $request->validate([
+        //     "uuid" => "required|exists:notes,id",
+        // ]);
+
+        $this->repository->remove($uuid);
+        return response()->noContent();
+    }
+
+    public function store(
+        \Illuminate\Http\Request $request,
+    ): \Illuminate\Database\Eloquent\Collection {
+        $validated = $request->validate([
+            "text" => "required|string|max:50|unique:tags,name",
+            "tag_id" => "required|exists:tags,id",
+        ]);
+
+        return $this->repository->store($validated);
+    }
+    public function load(): array
+    {
+        return $this->repository->load();
     }
 }

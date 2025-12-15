@@ -1,22 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Tag;
+use App\Repositories\Tags;
 
 class TagController
 {
-    public function listAll()
+    private $repository;
+    public function __construct()
     {
-        return Tag::pluck("name")->toArray();
+        $this->repository = new Tags();
     }
 
-    public function store(\Illuminate\Http\Request $request)
+    public function load(): array
     {
+        return $this->repository->load();
+    }
+
+    public function store(
+        \Illuminate\Http\Request $request,
+    ): \Illuminate\Database\Eloquent\Collection {
         $validated = $request->validate([
             "name" => "required|string|max:50|unique:tags,name",
         ]);
-        Tag::create($validated);
 
-        return Tag::pluck("name")->toArray();
+        return $this->repository->append($validated);
     }
 }
