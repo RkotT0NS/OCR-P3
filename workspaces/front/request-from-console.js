@@ -30,6 +30,7 @@ async function storeTag(newTag) {
     })
         .then(res => {
             console.log("Status:", res.status); // Should now be 200 or 401
+            // https://livewire.laravel.com/docs/3.x/javascript#interacting-with-events
             Livewire.dispatch('tagCreated');
             return res.json();
         })
@@ -52,7 +53,7 @@ async function getNotes() {
 
 /**
  *
- * @param {{content:string, tag: number}} newNote
+ * @param {{content:string, tag_id: number}} newNote
  * @returns
  */
 async function storeNote(newNote) {
@@ -67,7 +68,41 @@ async function storeNote(newNote) {
     })
         .then(res => {
             console.log("Status:", res.status); // Should now be 200 or 401
+            // https://livewire.laravel.com/docs/3.x/javascript#interacting-with-events
+            Livewire.dispatch('noteCreated');
             return res.json();
         })
         .then(data => console.log(data));
+}
+
+
+/**
+ *
+ * @param {{reference: number}} newNote
+ * @returns
+ */
+async function deleteNote(noteReference) {
+    return fetch('/api/notes', {
+        method: 'DELETE',
+        body: JSON.stringify(newNote),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+        .then(res => {
+            console.log("Status:", res.status); // Should now be 200 or 401
+            // https://livewire.laravel.com/docs/3.x/javascript#interacting-with-events
+            Livewire.dispatch('noteDeleted');
+            return res.json();
+        })
+        .then(data => console.log(data));
+}
+export default {
+    getTags,
+    storeTag,
+    getNotes,
+    storeNote,
+    deleteNote,
 }
