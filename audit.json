@@ -147,7 +147,7 @@
       "nodes": [
         "node_modules/vite"
       ],
-      "fixAvailable": false
+      "fixAvailable": true
     }
   },
   "metadata": {
@@ -160,12 +160,12 @@
       "total": 1
     },
     "dependencies": {
-      "prod": 55,
-      "dev": 0,
-      "optional": 68,
-      "peer": 3,
+      "prod": 57,
+      "dev": 173,
+      "optional": 87,
+      "peer": 16,
       "peerOptional": 0,
-      "total": 125
+      "total": 304
     }
   }
 }
