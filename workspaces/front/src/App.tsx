@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import TagForm from './components/TagForm'
+import NoteForm from './components/NoteForm'
+import Notes from './components/Notes'
+import { TaggedNoteConsumer, TaggedNoteProvider } from './contexts/TaggedNote'
+import { ErrorBoundary } from './contexts/ErrorBoundary'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <ErrorBoundary>
+        <TaggedNoteProvider>
+            <div className="mt-6 p-4 border border-neutral-200 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-900">
+                <div className="space-y-4">
+                    <TaggedNoteConsumer>
+                        {({tags, addNote}) => <NoteForm {...{tags, addNote}} />}
+                    </TaggedNoteConsumer>
+
+                    <hr />
+                    <TaggedNoteConsumer>
+                        {({tags, notes, deleteNote}) => <Notes {...{tags, notes, deleteNote}} />}
+                    </TaggedNoteConsumer>
+                </div>
+            </div>
+
+            <div className="mt-6 p-4 border border-neutral-200 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-900">
+                <div className="space-y-4">
+                    <TagForm/>
+                </div>
+            </div>
+        </TaggedNoteProvider>
+      </ErrorBoundary>
   )
 }
 
