@@ -31,7 +31,7 @@ class NoteController
 
         return $this->repository->store($validated);
     }
-    public function load(): array
+    public function load()
     {
         return $this->repository->load();
     }

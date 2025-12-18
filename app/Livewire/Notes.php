@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\Auth;
 class Notes extends Component
 {
     public $notes;
-    public $text = '';
-    public $tag_id = '';
+    public $text = "";
+    public $tag_id = "";
     public $tags;
 
     protected $rules = [
-        'text' => 'required|string',
-        'tag_id' => 'required|exists:tags,id',
+        "text" => "required|string",
+        "tag_id" => "required|exists:tags,id",
     ];
-    protected $listeners = ['tagCreated' => 'refreshTags'];
+    protected $listeners = [
+        "tagCreated" => "refreshTags",
+        "noteCreated" => "loadNotes",
+        "noteDeleted" => "loadNotes",
+    ];
 
     public function mount()
     {
@@ -28,7 +32,10 @@ class Notes extends Component
 
     public function loadNotes()
     {
-        $this->notes = Note::with('tag')->where('user_id', Auth::id())->latest()->get();
+        $this->notes = Note::with("tag")
+            ->where("user_id", Auth::id())
+            ->latest()
+            ->get();
     }
 
     public function refreshTags()
@@ -41,27 +48,27 @@ class Notes extends Component
         $this->validate();
 
         Note::create([
-            'user_id' => Auth::id(),
-            'tag_id' => $this->tag_id,
-            'text' => $this->text,
+            "user_id" => Auth::id(),
+            "tag_id" => $this->tag_id,
+            "text" => $this->text,
         ]);
 
-        $this->text = '';
-        $this->tag_id = '';
+        $this->text = "";
+        $this->tag_id = "";
 
         $this->loadNotes();
 
-        session()->flash('message', 'Note added.');
+        session()->flash("message", "Note added.");
     }
 
     public function delete($noteId)
     {
-        Note::where('id', $noteId)->where('user_id', Auth::id())->delete();
+        Note::where("id", $noteId)->where("user_id", Auth::id())->delete();
         $this->loadNotes();
     }
 
     public function render()
     {
-        return view('livewire.notes');
+        return view("livewire.notes");
     }
 }

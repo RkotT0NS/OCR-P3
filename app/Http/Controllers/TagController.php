@@ -11,7 +11,7 @@ class TagController
         $this->repository = new Tags();
     }
 
-    public function load(): array
+    public function load()
     {
         return $this->repository->load();
     }

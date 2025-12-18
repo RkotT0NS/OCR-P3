@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-use App\Models\Note;
+use App\Models\Tag;
 
 class Tags
 {
@@ -9,12 +9,12 @@ class Tags
 
     public function __construct()
     {
-        $this->model = Note::class;
+        $this->model = Tag::class;
     }
 
-    public static function load(): \Illuminate\Database\Eloquent\Collection
+    public function load(): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->model::pluck("name")->toArray();
+        return $this->model::select("id", "name")->get();
     }
     public function append(
         array $data,
