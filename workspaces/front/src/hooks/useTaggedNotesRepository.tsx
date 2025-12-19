@@ -90,14 +90,28 @@ export default function useTaggedNotesRepository() {
                     };
 
                     const objectStore = transaction.objectStore("notes");
+
+                    objectStore.openCursor().onsuccess = (event) => {
+                        const cursor = event.target.result;
+                        notes.findIndex((note) => note.id === cursor.value.id);
+                        if (cursor && notes.findIndex((note) => note.id === cursor.value.id) === -1) {
+                            cursor.continue();
+                        }
+                    };
                     Promise.all(notes.map((note) => {
                         return new Promise((innerResolve) => {
-                            const request = objectStore.add(note);
-                            request.onsuccess = (transactionRequestEvent) => {
-                                innerResolve(true);
-                                console.log({
-                                    transactionRequestSuccess: transactionRequestEvent,
-                                });
+                            const request = objectStore.get(note.id);
+                            request.onsuccess = () => {
+                                if(request.result) {
+                                    return innerResolve(true);;
+                                }
+                                const addRequest = objectStore.add(note);
+                                addRequest.onsuccess = (transactionRequestEvent) => {
+                                    innerResolve(true);
+                                    console.log({
+                                        transactionRequestSuccess: transactionRequestEvent,
+                                    });
+                                };
                             };
                         });
                     })).then(() => resolve(true) )
