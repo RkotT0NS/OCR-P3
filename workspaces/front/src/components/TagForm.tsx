@@ -1,10 +1,11 @@
 import {  useState } from "react";
 import { submitEffect } from "../lib/form";
+import type { Tag, TagCreationDTO } from "../interfaces/Tag";
 export function TagsList () {
 
 }
 
-export default function TagForm () {
+export default function TagForm ({addTag}: {addTag: (payload:TagCreationDTO) => Promise<Tag[]>}) {
     const [uiState, setUiState] = useState<'pure'|'inTransit'|'transitSuccess'|'transitFailure'>('pure');
     const [session, setSession] = useState<{ message?: string; }>({});
     const [error, setError] = useState<{ message?: string; }>({});
@@ -12,7 +13,10 @@ export default function TagForm () {
         setUiState,
         setError,
         setSession,
-        ['name']
+        ['name'],
+        (formValue) => {
+            return  addTag(formValue);
+        }
     );
 
     return <>

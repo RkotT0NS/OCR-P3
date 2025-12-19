@@ -38,8 +38,11 @@ export function TaggedNoteProvider({children}: {children:React.ReactNode}){
             updateNotes(returnedNotes);
             // return returnedNotes;
         },
-        addTag:() => {
-            console.log(storeTag.toString())
+        addTag:async (tag: TagCreationDTO) => {
+            const returnedTags = await storeTag(tag);
+            console.log(returnedTags);
+            updateTags(returnedTags);
+            // return returnedTags;
         },
     }}>
         <StoreLoader>

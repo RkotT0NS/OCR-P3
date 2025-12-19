@@ -25,7 +25,10 @@ function App() {
 
             <div className="mt-6 p-4 border border-neutral-200 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-900">
                 <div className="space-y-4">
-                    <TagForm/>
+
+                    <TaggedNoteConsumer>
+                        {({addTag}) => <TagForm {...{addTag}} />}
+                    </TaggedNoteConsumer>
                 </div>
             </div>
         </TaggedNoteProvider>
