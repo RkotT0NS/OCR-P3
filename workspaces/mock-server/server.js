@@ -11,13 +11,16 @@ import {
  */
 function loadTable(path) {
     const [header, ...lines] = readFileSync(path, 'utf-8').split('\n');
-    console.log(lines)
+
     return {
         length: JSON.parse(header)[0],
         data: lines.reduce((lines, line, index) => {
             // console.log({ line, index })
             if (line !== '' && line !== "null") {
                 lines.push(JSON.parse(line))
+            }
+            if (line === "null") {
+                lines.push(null)
             }
             return lines;
         }, [])
@@ -46,31 +49,29 @@ const app = express()
 app.use(bodyParser.json())
 
 app.get('/tags', async (req, res) => {
-    res.json(tags.data);
+    res.json(tags.data.filter(item => item !== null));
 });
 
 app.post('/tags', async (req, res) => {
-    console.log({ tags: req.body });
-
-    res.json(tags.data);
+    res.json(tags.data.filter(item => item !== null));
 });
 
 app.get('/notes', async (req, res) => {
-    res.json(notes.data);
+    res.json(notes.data.filter(item => item !== null));
 });
 
 app.post('/notes', async (req, res) => {
     // oO
     const id = notes.length++;
     notes.data.push({ id, ...req.body });
-    res.json(notes.data);
+    res.json(notes.data.filter(item => item !== null));
 });
 
 
 app.delete('/note/:id', async (req, res) => {
     const note = notes.data.find(note => note.id === parseInt(req.params.id));
     if (!note) return res.status(404).json({ error: 'Note not found' });
-    notes.data.splice(notes.indexOf(note), 0, null);
+    notes.data.splice(notes.data.indexOf(note), 1, null);
     res.json(204).end();
 });
 
