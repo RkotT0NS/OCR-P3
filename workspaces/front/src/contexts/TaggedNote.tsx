@@ -28,9 +28,14 @@ export function TaggedNoteProvider({children}: {children:React.ReactNode}){
         notes,
         // updater: (tags: Tag[], notes: Note[]) => {
         // },
-        deleteNote:(subject: NoteDeletionDTO) => {
-            console.log(deleteNote.toString())
-            console.log(subject);
+        deleteNote:async (subject: NoteDeletionDTO) => {
+            try {
+                await deleteNote(subject);
+                await updateNotes(notes.filter(note => note.id !== subject.reference));
+            }
+            catch(deletionError) {
+                console.error(deletionError)
+            }
         },
         addNote: async (note: NoteCreationDTO) => {
             const returnedNotes = await storeNote(note);
