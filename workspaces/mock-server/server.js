@@ -53,6 +53,8 @@ app.get('/tags', async (req, res) => {
 });
 
 app.post('/tags', async (req, res) => {
+    const id = tags.length += 1;
+    tags.data.push({ id, ...req.body });
     res.json(tags.data.filter(item => item !== null));
 });
 
@@ -61,8 +63,7 @@ app.get('/notes', async (req, res) => {
 });
 
 app.post('/notes', async (req, res) => {
-    // oO
-    const id = notes.length++;
+    const id = notes.length += 1;
     notes.data.push({ id, ...req.body });
     res.json(notes.data.filter(item => item !== null));
 });
@@ -79,10 +80,12 @@ app.listen(8011, () => {
     console.log('MockServer is running on port 8011');
 })
 process.on('SIGINT', () => {
-    const sessionEndUuid = randomUUID();
-    console.log({ sessionEndUuid });
-    saveTable(`./notes-${sessionEndUuid}.jsan`, notes);
-    saveTable(`./tags-${sessionEndUuid}.jsan`, tags);
+    if (process.env.PERSIST === "on") {
+        const sessionEndUuid = randomUUID();
+        console.log({ sessionEndUuid });
+        saveTable(`./notes-${sessionEndUuid}.jsan`, notes);
+        saveTable(`./tags-${sessionEndUuid}.jsan`, tags);
+    }
     process.exit();
 })
 
