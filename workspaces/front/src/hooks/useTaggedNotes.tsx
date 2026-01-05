@@ -5,7 +5,9 @@ import type { Note } from '../interfaces/Note';
 export const useTaggedNotes = create<{
     notes: Note[],
     tags: Tag[],
-    update: (notes: Note[], tags: Tag[]) => void
+    update: (notes: Note[], tags: Tag[]) => void,
+    updateNotes: (notes: Note[]) => void,
+    updateTags: (tags: Tag[]) => void,
 }>((set) => ({
     notes: [],
     tags: [],

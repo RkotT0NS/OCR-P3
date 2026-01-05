@@ -1,3 +1,6 @@
+import type { NoteCreationDTO, NoteDeletionDTO } from "../interfaces/Note";
+import type { TagCreationDTO } from "../interfaces/Tag";
+
 export type UiState = "pure" | "inTransit" | "transitSuccess" | "transitFailure";
 
 export function submitEffect(
@@ -9,7 +12,7 @@ export function submitEffect(
         message?: string;
     }>>,
     watchedName: string[],
-    transit?: (values: Record<string, string | string[]>) => Promise<void>,
+    transit?: (values: NoteCreationDTO|NoteDeletionDTO|TagCreationDTO) => Promise<void>,
 ) : React.FormEventHandler<HTMLFormElement> {
     return function handleFormEvent(event) {
         event.preventDefault();

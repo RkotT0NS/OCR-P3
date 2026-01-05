@@ -14,7 +14,8 @@ export default function TagForm ({addTag}: {addTag: (payload:TagCreationDTO) => 
         setError,
         setSession,
         ['name'],
-        (formValue) => {
+        //@ts-expect-error submitEffect transit argument is polymorphic
+        (formValue: TagCreationDTO) => {
             return  addTag(formValue);
         }
     );

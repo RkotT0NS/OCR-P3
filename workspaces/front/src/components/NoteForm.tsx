@@ -18,7 +18,8 @@ export default function NoteForm ({tags, addNote}: {
         setError,
         setSession,
         ['text', "tag_id"],
-        (values) => {
+        //@ts-expect-error submitEffect transit argument is polymorphic
+        (values: NoteCreationDTO) => {
             return addNote(values);
         }
     );

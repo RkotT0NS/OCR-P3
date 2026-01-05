@@ -19,7 +19,7 @@ export default function StoreLoader ({children}: {children: React.ReactNode}) {
                 tagsData,
             );
         }
-    }, [tagsData, notesData]);
+    }, [tagsData, notesData, update]);
 
     if (tagsError || notesError) {
       return <div>Error loading data</div>;
