@@ -11,11 +11,14 @@ class NoteController
         $this->repository = new Notes();
     }
 
-    public function delete(\Illuminate\Http\Request $request, string $uuid)
-    {
-        // $validated = $request->validate([
-        //     "uuid" => "required|exists:notes,id",
-        // ]);
+    public function delete(
+        \Illuminate\Http\Request $request,
+        string $uuid,
+    ): \Illuminate\Http\Response {
+        $request->merge(["uuid" => $request->route("uuid")]);
+        $validated = $request->validate([
+            "uuid" => "required|exists:notes,id",
+        ]);
 
         $this->repository->remove($uuid);
         return response()->noContent();
@@ -29,7 +32,7 @@ class NoteController
             "tag_id" => "required|exists:tags,id",
         ]);
 
-        return $this->repository->store($validated);
+        return $this->repository->append($validated);
     }
     public function load()
     {
