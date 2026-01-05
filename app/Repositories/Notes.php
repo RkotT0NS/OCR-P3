@@ -40,7 +40,7 @@ class Notes
     public function load(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->model
-            ::select("tag_id", "text")
+            ::select("id", "tag_id", "text")
             ->where("user_id", Auth::id())
             ->latest()
             ->get();
