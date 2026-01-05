@@ -7,7 +7,13 @@
     <title>front</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="dashboard"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="text/javascript">
+    setTimeout(() => {
+        const pseudoLoad = new Event('livewire:navigated');
+        document.dispatchEvent(pseudoLoad);
+    }, 2000)
+    </script>
   </body>
 </html>

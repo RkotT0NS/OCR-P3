@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import laravel from 'laravel-vite-plugin'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -15,23 +16,8 @@ export default defineConfig({
         }
     },
     // 🪷
-    build: {
-        rolldownOptions: {
-            //
-            output: {
-                // 1. JS Entry file (e.g., main.js)
-                entryFileNames: 'assets/[name].js',
-
-                // 2. JS Chunk files (e.g., shared libraries or lazy loaded modules)
-                chunkFileNames: 'assets/[name].js',
-
-                // 3. CSS and other assets (images, fonts)
-                assetFileNames: 'assets/[name].[ext]'
-            }
-        },
-        outDir: '../../public/components',
-        emptyOutDir: true,
-        // target
-    },
-    plugins: [react()],
+    plugins: [
+        react(),
+        laravel(['src/main.tsx']),
+    ],
 })

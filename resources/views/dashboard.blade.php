@@ -1,10 +1,7 @@
 <x-layouts.app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl" id="root"></div>
-    <script
-        type="module"
-        crossorigin
-        src="/components/assets/index.js"
-    ></script>
+    @vite([ 'workspaces/front/src/main.tsx'])
+    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl" id="dashboard"></div>
+
     @livewireStyles
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <!--<iframe src="/components/index.html" frameborder="0" width="100%" height="500px"></iframe>-->
